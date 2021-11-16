@@ -1,0 +1,24 @@
+<img src="assets/{{image}}.svg">
+<div>
+  <span class="recipe-preview-title">{{title}}</span>
+  <p class="recipe-preview-description">{{description}}</p>
+  <div class="recipe-preview-footer">
+    <span class="recipe-preview-type">{{type}}</span>
+    <div class="recipe-preview-time">
+      <svg width="16" height="16">
+        <use xlink:href="assets/clock.svg#clock"></use>
+      </svg>
+      <span>{{time}} min</span>
+    </div>
+    <button>
+      <svg width="14" height="18"
+           [class.recipe-favourite]="isFavourite"
+           [class.recipe-not-favourite]="!isFavourite">
+        <use xlink:href="assets/favourite.svg#favourite"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+<svg *ngIf="isVegan" class="recipe-preview-leaf-icon" width="20" height="20">
+  <use xlink:href="assets/leaf.svg#leaf"></use>
+</svg>
