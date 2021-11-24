@@ -1,7 +1,9 @@
-<img src="assets/{{image}}.svg">
-<div>
-  <span class="recipe-preview-title">{{title}}</span>
-  <p class="recipe-preview-description">{{description}}</p>
+<img [src]="image" class="recipe-preview-image">
+<div class="recipe-preview-info">
+  <div>
+    <span class="recipe-preview-title">{{title}}</span>
+    <p class="recipe-preview-description">{{description}}</p>
+  </div>
   <div class="recipe-preview-footer">
     <span class="recipe-preview-type">{{type}}</span>
     <div class="recipe-preview-time">
@@ -10,7 +12,7 @@
       </svg>
       <span>{{time}} min</span>
     </div>
-    <button>
+    <button *ngIf="isLogged$ | async">
       <svg width="14" height="18"
            [class.recipe-favourite]="isFavourite"
            [class.recipe-not-favourite]="!isFavourite">

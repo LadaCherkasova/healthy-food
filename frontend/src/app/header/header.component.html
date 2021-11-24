@@ -7,8 +7,8 @@
     <span class="header-button-text">Вход</span>
   </button>
   <div *ngIf="isLogged$ | async" class="header-button-wrap header-buttons">
-    <button class="header-button-alignment add-recipe">
-      <span class="header-button-text">Добавить рецепт</span>
+    <button class="header-button-alignment add-recipe" routerLink="create-recipe">
+      <span class="header-button-text">Создать рецепт</span>
     </button>
     <div class="header-button-divider"></div>
     <button routerLink="favourite" class="header-button-alignment">

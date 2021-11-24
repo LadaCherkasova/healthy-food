@@ -6,10 +6,26 @@
   padding: 20px;
   background: var(--bg-13);
   border: var(--border-03);
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.recipe-preview-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.recipe-preview-image {
+  max-width: 120px;
+  max-height: 200px;
+  border-radius: 4px;
 }
 
 .recipe-preview-title {
-  font-size: 22px;
+  font-size: 20px;
   margin-bottom: 8px;
 }
 
@@ -22,7 +38,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 10px;
+
+  button {
+    margin-top: -4px;
+  }
 }
 
 .recipe-preview-type {

@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { RecipesService } from '../services/recipes.service';
+import { AuthQuery } from '../services/auth.query';
 
 @Component({
   selector: 'recipe-page',
@@ -6,67 +9,29 @@ import { Component } from '@angular/core';
   styleUrls: ['./recipe-page.component.scss']
 })
 export class RecipePageComponent {
-  readonly info = {
-    title: 'Название блюда',
-    description: 'Краткое описание блюда Краткое описание блюда Краткое описание блюда Краткое описание блюда ' +
-      'Краткое описание блюда Краткое описание блюда Краткое описание блюда Краткое описание блюда Краткое описание ' +
-      'блюда Краткое описание блюда Краткое описание блюда Краткое описание блюда',
-    image: 'mock',
-    type: 'Десерт',
-    time: '10',
-    portions: 8,
-    isFavourite: true,
-    isVegan: true,
-    ingredients: [
-      {
-        name: 'Ингредиент',
-        amount: '100г',
-      },
-      {
-        name: 'Ингредиент',
-        amount: '100г',
-      },
-      {
-        name: 'Ингредиент',
-        amount: '100г',
-      },
-      {
-        name: 'Ингредиент',
-        amount: '100г',
-      },
-      {
-        name: 'Ингредиент',
-        amount: '100г',
-      },
-      {
-        name: 'Ингредиент',
-        amount: '100г',
-      },
-      {
-        name: 'Ингредиент',
-        amount: '100г',
-      },
-    ],
-    steps: [
-      {
-        image: 'mock',
-        description: 'Описание действий в шаге Описание действий в шаге Описание действий в шаге Описание действий ' +
-          'в шаге Описание действий в шаге Описание действий в шаге Описание действий в шаге Описание действий ' +
-          'в шаге Описание действий в шаге ',
-      },
-      {
-        image: 'mock',
-        description: 'Описание действий в шаге Описание действий в шаге Описание действий в шаге Описание действий' +
-          'в шаге Описание действий в шаге Описание действий в шаге Описание действий в шаге Описание действий в' +
-          ' шаге Описание действий в шаге ',
-      },
-      {
-        image: 'mock',
-        description: 'Описание действий в шаге Описание действий в шаге Описание действий в шаге Описание действий ' +
-          'в шаге Описание действий в шаге Описание действий в шаге Описание действий в шаге Описание действий в' +
-          ' шаге Описание действий в шаге ',
-      },
-    ]
+  readonly isLogged$ = this.authQuery.isLogged$;
+
+  recipe: any = {};
+
+  ingredients: any = [];
+
+  steps: any = [];
+
+  constructor(
+    private router: Router,
+    private recipesService: RecipesService,
+    private authQuery: AuthQuery,
+    ) {
+    const parts = this.router.url.split('/');
+    const recipeId = parseInt(parts[parts.length - 1]);
+
+    this.recipesService
+      .getCertainRecipe(recipeId)
+      .subscribe(res => {
+        this.recipe = res.recipe;
+        this.ingredients = res.ingredients;
+        this.steps = res.steps;
+      });
   }
 }
 

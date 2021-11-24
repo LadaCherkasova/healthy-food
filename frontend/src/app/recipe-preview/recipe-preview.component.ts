@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { AuthQuery } from '../services/auth.query';
 
 @Component({
   selector: 'recipe-preview',
@@ -26,4 +27,8 @@ export class RecipePreviewComponent {
 
   @Input()
   isVegan: boolean;
+
+  readonly isLogged$ = this.authQuery.isLogged$;
+
+  constructor(private authQuery: AuthQuery) {}
 }
