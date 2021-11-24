@@ -4,33 +4,6 @@
   align-items: center;
   padding: 100px 0;
   position: relative;
-
-  ::ng-deep {
-    .mat-checkbox-inner-container {
-      margin: -10px 14px 0 0;
-      height: 18px;
-    }
-
-    .mat-checkbox-frame {
-      height: 20px;
-      width: 20px;
-      background: var(--bg-04);
-      border: var(--border-03);
-    }
-
-    .mat-checkbox-input {
-      display: none;
-    }
-
-    .mat-checkbox-checkmark {
-      top: 2px;
-      left: 1.5px;
-    }
-
-    .mat-checkbox-checkmark-path {
-      stroke: var(--text-02);
-    }
-  }
 }
 
 .find-page-input-wrap {
@@ -190,14 +163,4 @@
     width: 100%;
     letter-spacing: 0.5px;
   }
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type=number] {
-  -moz-appearance: textfield;
 }

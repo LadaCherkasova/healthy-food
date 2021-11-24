@@ -84,13 +84,14 @@
 </div>
 
 <div class="find-page-recipes-wrap">
-  <recipe-preview *ngFor="let id of [1,2]"
-                  [description]="recipeInfo.description"
-                  [image]="recipeInfo.image"
-                  [isFavourite]="recipeInfo.isFavourite"
-                  [time]="recipeInfo.time"
-                  [type]="recipeInfo.type"
-                  [title]="recipeInfo.title"
-                  [isVegan]="true">
+  <recipe-preview *ngFor="let recipe of recipes"
+                  [description]="recipe.recipe_description"
+                  [image]="recipe.recipe_preview"
+                  [isFavourite]="false"
+                  [time]="recipe.recipe_time"
+                  [type]="recipe.type_name"
+                  [title]="recipe.recipe_title"
+                  [isVegan]="recipe.recipe_isvegan"
+                  (click)="openRecipe(recipe.recipe_id)">
   </recipe-preview>
 </div>

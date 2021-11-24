@@ -1,9 +1,9 @@
 :host {
   display: grid;
-  grid-template-columns: 7fr 3fr;
+  grid-template-columns: 6fr 3fr;
   grid-column-gap: 32px;
   width: 100%;
-  padding: 100px 18%;
+  padding: 100px 14%;
   margin: 20px 0;
 }
 
@@ -20,13 +20,20 @@
   grid-column-gap: 28px;
 }
 
+.recipe-page-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .recipe-page-main-image {
   height: 240px;
   width: 240px;
+  border-radius: 6px;
 }
 
 .recipe-page-title {
-  font-size: 22px;
+  font-size: 20px;
   margin-bottom: 10px;
   display: block;
 }
@@ -36,7 +43,10 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 10px;
-  padding-right: 12px;
+
+  button {
+    margin-top: -4px;
+  }
 }
 
 .recipe-page-type {
@@ -72,6 +82,7 @@
 .recipe-page-step-image {
   width: 200px;
   height: 200px;
+  border-radius: 4px;
 }
 
 .recipe-page-step {
@@ -79,6 +90,7 @@
   grid-template-columns: 200px 1fr;
   grid-column-gap: 16px;
   margin-top: 32px;
+  font-size: 18px;
 }
 
 .recipe-ingredients-card {
@@ -91,7 +103,7 @@
 .recipe-ingredient-row {
   display: grid;
   align-items: center;
-  grid-template-columns: 8px 3fr 2fr;
+  grid-template-columns: 8px 5fr 2fr;
   grid-column-gap: 10px;
   margin-bottom: 10px;
 }

@@ -15,6 +15,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthService } from './services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SettingsService } from './services/settings.service';
+import { RecipesService } from './services/recipes.service';
+import { AddRecipePageModule } from './add-recipe-page/add-recipe-page.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,8 +32,9 @@ import { SettingsService } from './services/settings.service';
     RegisterDialogModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    AddRecipePageModule,
   ],
-  providers: [AuthService, SettingsService],
+  providers: [AuthService, SettingsService, RecipesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { SettingsService } from '../services/settings.service';
 import { FormControl } from '@angular/forms';
 import { tap } from 'rxjs/operators';
+import { RecipesService } from '../services/recipes.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'find-page',
@@ -9,15 +11,6 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./find-page.component.scss']
 })
 export class FindPageComponent {
-  readonly recipeInfo = {
-    image: 'mock',
-    title: 'Название блюда',
-    description: 'Краткое описание блюда Краткое описание блюда Краткое описание блюда Краткое описание блюда',
-    isFavourite: false,
-    type: 'Десерт',
-    time: 10,
-  }
-
   readonly timeControl = new FormControl();
 
   readonly veganControl = new FormControl();
@@ -30,6 +23,8 @@ export class FindPageComponent {
 
   types: any = [];
 
+  recipes: any = [];
+
   showFindIcon = false;
 
   shields: any = {
@@ -39,7 +34,11 @@ export class FindPageComponent {
     isVegan: undefined,
   };
 
-  constructor(private settingsService: SettingsService) {
+  constructor(
+    private settingsService: SettingsService,
+    private recipesService: RecipesService,
+    private router: Router,
+    ) {
     this.settingsService
       .getAvailableIngredients()
       .subscribe((response) => {
@@ -66,6 +65,10 @@ export class FindPageComponent {
         )
       })
     ).subscribe();
+
+    this.recipesService
+      .getAvailableRecipes()
+      .subscribe(res => this.recipes = res);
   };
 
   toggleInputIcon(): void {
@@ -114,6 +117,10 @@ export class FindPageComponent {
   consoleFinal(): void {
     this.toggleInputIcon();
     console.log(this.shields);
+  }
+
+  openRecipe(id: number): void {
+    this.router.navigateByUrl(`recipe/${id}`);
   }
 
   private findIdOfShield(value: string): number {
