@@ -6,7 +6,7 @@ function tokenGenerator(user_id) {
     user: user_id
   }
 
-  return jwt.sign(payload, process.env.healthy_food_secret, {expiresIn: "1hr"});
+  return jwt.sign(payload, process.env.healthy_food_secret, {expiresIn: "4hr"});
 }
 
 module.exports = tokenGenerator;

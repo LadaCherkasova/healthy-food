@@ -45,7 +45,7 @@
     </div>
     <div class="add-recipe-page-block">
       <span>* Рецепт-подсказка</span>
-      <p class="add-recipe-page-subtext">Вставьте сюда ссылку на рецепт (с этого сайта), который может помочь в
+      <p class="add-recipe-page-subtext">Вставьте при необходимости сюда ссылку на рецепт (с этого сайта), который может помочь в
         приготовлении Вашего рецепта</p>
       <input class="add-recipe-page-input" (change)="changeValue($event, 'previousRecipe')">
     </div>
@@ -94,7 +94,7 @@
           (click)="sendRecipe()">
     <span>Создать рецепт</span>
   </button>
-  <p class="add-recipe-page-subtext">* Ваш рецепт будет отправлен на модерацию администратору сайта</p>
+  <p class="add-recipe-page-subtext narrow-text">* Ваш рецепт будет отправлен на модерацию администратору сайта</p>
 </div>
 
 <div class="add-recipe-page-card add-recipe-ingredients-card">
@@ -150,6 +150,15 @@
         </button>
       </div>
     </div>
+  </div>
+  <div class="moderated-ingredient-block">
+    <span class="add-recipe-page-subtext">Если Вы не можете найти необходимый ингредиент, Вы можете отправить его на
+      модерацию администратору сайта</span>
+    <button class="add-recipe-page-photo-icon" (click)="openIngredientDialog()">
+      <svg width="16" height="32">
+        <use xlink:href="assets/send.svg#send"></use>
+      </svg>
+    </button>
   </div>
   <div>
     <span>Рассчитано на </span>

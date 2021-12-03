@@ -1,4 +1,4 @@
-<div *ngIf="recipe">
+<div *ngIf="recipe && (!isModerated || (isAdmin$ | async))">
   <div class="recipe-page-card recipe-main-card">
     <img [src]="recipe.recipe_preview" class="recipe-page-main-image">
     <div class="recipe-page-info">
@@ -14,13 +14,27 @@
           </svg>
           <span>{{recipe.recipe_time}} min</span>
         </div>
-        <button *ngIf="isLogged$ | async" (click)="toggleFavorite()">
-          <svg width="14" height="18"
-               [class.recipe-favourite]="isFavorite"
-               [class.recipe-not-favourite]="!isFavorite">
-            <use xlink:href="assets/favourite.svg#favourite"></use>
-          </svg>
-        </button>
+        <ng-container *ngIf="isLogged$ | async">
+          <button *ngIf="!isModerated" (click)="toggleFavorite()">
+            <svg width="14" height="18"
+                 [class.recipe-favourite]="isFavorite"
+                 [class.recipe-not-favourite]="!isFavorite">
+              <use xlink:href="assets/favourite.svg#favourite"></use>
+            </svg>
+          </button>
+          <div *ngIf="isModerated">
+            <button class="approve-button" (click)="approveRecipe()">
+              <svg width="14" height="18">
+                <use xlink:href="assets/check.svg#check"></use>
+              </svg>
+            </button>
+            <button class="decline-button" (click)="declineRecipe()">
+              <svg width="14" height="14">
+                <use xlink:href="assets/cross.svg#cross"></use>
+              </svg>
+            </button>
+          </div>
+        </ng-container>
       </div>
     </div>
     <svg *ngIf="recipe.recipe_isVegan" class="recipe-page-leaf-icon" width="20" height="20">
@@ -33,7 +47,7 @@
   </div>
 </div>
 
-<div *ngIf="recipe" class="recipe-page-card recipe-ingredients-card">
+<div *ngIf="recipe && (!isModerated || (isAdmin$ | async))" class="recipe-page-card recipe-ingredients-card">
   <span class="recipe-page-title">Ингдериенты</span>
   <div *ngFor="let ingredient of ingredients" class="recipe-ingredient-row">
     <svg width="8" height="8">

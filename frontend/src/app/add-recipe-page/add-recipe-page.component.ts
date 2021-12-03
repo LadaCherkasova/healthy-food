@@ -4,6 +4,8 @@ import { tap } from 'rxjs/operators';
 import { SettingsService } from '../services/settings.service';
 import { RecipesService } from '../services/recipes.service';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { IngredientDialogComponent } from '../ingredient-dialog/ingredient-dialog.component';
 
 @Component({
   selector: 'add-recipe-page',
@@ -44,6 +46,7 @@ export class AddRecipePageComponent {
     private settingsService: SettingsService,
     private recipesService: RecipesService,
     private router: Router,
+    private matDialog: MatDialog,
   ) {
     this.fileControl.valueChanges.pipe(
       tap(() => {
@@ -164,7 +167,6 @@ export class AddRecipePageComponent {
     this.recipe.ingredients = this.chosenIngredients;
     if (this.recipe.title && this.recipe.description && this.recipe.time && this.recipe.portions && this.recipe.type
       && this.recipe.ingredients.length > 0 && this.recipe.steps.length > 0 && this.recipe.preview) {
-      console.log(this.recipe);
       this.recipesService
         .createRecipe(this.recipe)
         .subscribe();
@@ -172,5 +174,9 @@ export class AddRecipePageComponent {
     } else {
       this.showErrorText = true;
     }
+  }
+
+  openIngredientDialog(): void {
+    this.matDialog.open(IngredientDialogComponent);
   }
 }

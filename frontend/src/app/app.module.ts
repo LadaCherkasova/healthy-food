@@ -19,6 +19,11 @@ import { RecipesService } from './services/recipes.service';
 import { AddRecipePageModule } from './add-recipe-page/add-recipe-page.module';
 import { FavoritesService } from './services/favorites.service';
 import { AuthorizationGuard } from './authorization.guard';
+import { ModerationPageModule } from './moderation-page/moderation-page.module';
+import { ModerationService } from './services/moderation.service';
+import { IngredientDialogModule } from './ingredient-dialog/ingredient-dialog.module';
+import { AdminGuard } from './admin.guard';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,8 +40,18 @@ import { AuthorizationGuard } from './authorization.guard';
     BrowserAnimationsModule,
     HttpClientModule,
     AddRecipePageModule,
+    ModerationPageModule,
+    IngredientDialogModule,
   ],
-  providers: [AuthService, SettingsService, RecipesService, FavoritesService, AuthorizationGuard],
+  providers: [
+    AuthService,
+    SettingsService,
+    RecipesService,
+    FavoritesService,
+    ModerationService,
+    AuthorizationGuard,
+    AdminGuard,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

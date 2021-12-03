@@ -12,6 +12,7 @@ app.use("/auth", require("./routes/auth"));
 app.use("/recipes", require("./routes/recipes"));
 app.use("/settings", require("./routes/settings"));
 app.use("/favorites", require("./routes/favorites"));
+app.use("/moderation", require("./routes/moderation"));
 
 app.listen(5000, () => {
   console.log('server is running on port 5000')
