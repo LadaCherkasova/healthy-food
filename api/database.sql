@@ -42,3 +42,10 @@ CREATE TABLE types(
 
 INSERT INTO types (type_name) VALUES
 --...all types;
+
+CREATE TABLE favorites
+(
+    favourite_id SERIAL PRIMARY KEY,
+    user_id uuid REFERENCES users (user_id),
+    recipe_id INTEGER REFERENCES recipes (recipe_id)
+);

@@ -12,10 +12,10 @@
       </svg>
       <span>{{time}} min</span>
     </div>
-    <button *ngIf="isLogged$ | async">
+    <button *ngIf="isLogged$ | async" (click)="toggleFavorite($event)">
       <svg width="14" height="18"
-           [class.recipe-favourite]="isFavourite"
-           [class.recipe-not-favourite]="!isFavourite">
+           [class.recipe-favourite]="isFavorite"
+           [class.recipe-not-favourite]="!isFavorite">
         <use xlink:href="assets/favourite.svg#favourite"></use>
       </svg>
     </button>

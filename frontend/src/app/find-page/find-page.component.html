@@ -1,6 +1,6 @@
 <div class="find-page-input-wrap">
-  <input class="find-page-input">
-  <button *ngIf="showFindIcon" class="find-page-input-icon" (click)="consoleFinal()">
+  <input class="find-page-input" [formControl]="titleControl">
+  <button *ngIf="showFindIcon" class="find-page-input-icon" (click)="getFilteredRecipes(true)">
     <svg width="22" height="23">
       <use xlink:href="assets/find.svg#find"></use>
     </svg>
@@ -87,11 +87,11 @@
   <recipe-preview *ngFor="let recipe of recipes"
                   [description]="recipe.recipe_description"
                   [image]="recipe.recipe_preview"
-                  [isFavourite]="false"
                   [time]="recipe.recipe_time"
                   [type]="recipe.type_name"
                   [title]="recipe.recipe_title"
                   [isVegan]="recipe.recipe_isvegan"
+                  [recipeId]="recipe.recipe_id"
                   (click)="openRecipe(recipe.recipe_id)">
   </recipe-preview>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SettingsService } from '../services/settings.service';
 import { FormControl } from '@angular/forms';
 import { tap } from 'rxjs/operators';
@@ -10,7 +10,9 @@ import { Router } from '@angular/router';
   templateUrl: './find-page.component.html',
   styleUrls: ['./find-page.component.scss']
 })
-export class FindPageComponent {
+export class FindPageComponent implements OnInit {
+  readonly titleControl = new FormControl();
+
   readonly timeControl = new FormControl();
 
   readonly veganControl = new FormControl();
@@ -28,6 +30,7 @@ export class FindPageComponent {
   showFindIcon = false;
 
   shields: any = {
+    title: undefined,
     ingredients: [],
     type: undefined,
     time: undefined,
@@ -38,7 +41,9 @@ export class FindPageComponent {
     private settingsService: SettingsService,
     private recipesService: RecipesService,
     private router: Router,
-    ) {
+  ) {};
+
+  ngOnInit(): void {
     this.settingsService
       .getAvailableIngredients()
       .subscribe((response) => {
@@ -69,13 +74,21 @@ export class FindPageComponent {
     this.recipesService
       .getAvailableRecipes()
       .subscribe(res => this.recipes = res);
-  };
+
+    this.titleControl.valueChanges.pipe(
+      tap((value) => {
+        this.shields.title = value === '' ? undefined : value;
+        this.getFilteredRecipes(false);
+      })
+    ).subscribe();
+  }
 
   toggleInputIcon(): void {
     this.showFindIcon = !this.showFindIcon;
   }
 
   toggleIngredient(ingredient: string): void {
+    this.ingredientSearchControl.setValue('');
     const id2 = this.findIdOfIngredient(ingredient);
     const id = this.findIdOfShield(ingredient);
     if (id !== -1) {
@@ -114,9 +127,13 @@ export class FindPageComponent {
     this.shields.type = undefined;
   }
 
-  consoleFinal(): void {
-    this.toggleInputIcon();
-    console.log(this.shields);
+  getFilteredRecipes(shouldToggle: boolean): void {
+    if (shouldToggle) {
+      this.toggleInputIcon();
+    }
+    this.recipesService
+      .getFilteredRecipes(this.shields)
+      .subscribe(res => this.recipes = res);
   }
 
   openRecipe(id: number): void {
