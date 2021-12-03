@@ -4,6 +4,8 @@ import { FavoritePageComponent } from './favorite-page/favorite-page.component';
 import { RecipePageComponent } from './recipe-page/recipe-page.component';
 import { AddRecipePageComponent } from './add-recipe-page/add-recipe-page.component';
 import { AuthorizationGuard } from './authorization.guard';
+import { ModerationPageComponent } from './moderation-page/moderation-page.component';
+import { AdminGuard } from './admin.guard';
 
 
 export const routes: Routes = [
@@ -24,5 +26,10 @@ export const routes: Routes = [
     path: 'create-recipe',
     component: AddRecipePageComponent,
     canActivate: [AuthorizationGuard],
+  },
+  {
+    path: 'moderation',
+    component: ModerationPageComponent,
+    canActivate: [AuthorizationGuard, AdminGuard]
   }
 ]

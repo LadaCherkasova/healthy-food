@@ -73,3 +73,24 @@
   right: 16px;
   top: 16px;
 }
+
+.approve-button {
+  border: 1px solid #4466338f;
+  border-radius: 50%;
+  padding: 2px 7px;
+
+  svg {
+    color: rgb(64 94 49);
+  }
+}
+
+.decline-button {
+  border: 1px solid #e07171ba;
+  border-radius: 50%;
+  padding: 2px 7px;
+  margin-left: 4px;
+
+  svg {
+    color: #a01515e3;
+  }
+}

@@ -69,12 +69,16 @@
 .add-recipe-page-subtext {
   font-size: 14px;
   opacity: 0.5;
+  margin-bottom: 8px;
 
   &:last-of-type {
-    max-width: 400px;
     display: block;
     margin-top: 10px;
     opacity: 0.7;
+  }
+
+  &.narrow-text {
+    max-width: 400px;
   }
 }
 
@@ -247,5 +251,16 @@
 
   .add-recipe-page-photo-icon {
     margin-left: 8px;
+  }
+}
+
+.moderated-ingredient-block {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  align-items: center;
+  grid-column-gap: 16px;
+
+  button {
+    opacity: 0.7;
   }
 }
