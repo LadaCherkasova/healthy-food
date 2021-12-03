@@ -56,6 +56,46 @@ router.get("/", async(req, res) => {
   }
 })
 
+//get filtered recipes
+router.get("/filtered/shields", async(req, res) => {
+  try {
+    let { title, ingredients, type, time, isVegan } = req.query;
+    time = time === 'undefined' || time === 'null' ? 0 : +time;
+    isVegan = isVegan !== 'undefined';
+
+    ingrRecipes = {};
+    ingredients = ingredients.split(' ').slice(1);
+    for (let ingredient of ingredients) {
+      const ingredientQuery = await pool.query('SELECT recipes.recipe_id from recipes ' +
+        'INNER JOIN recipe_ingredient ON recipe_ingredient.recipe_id = recipes.recipe_id ' +
+        'INNER JOIN ingredients ON ingredients.ingredient_id = recipe_ingredient.ingredient_id ' +
+        'WHERE ingredient_name = $1', [ingredient]
+      );
+      ingredientQuery.rows.forEach(recipe => {
+        !ingrRecipes[recipe.recipe_id]
+          ? ingrRecipes[recipe.recipe_id] = 1
+          : ingrRecipes[recipe.recipe_id] = ingrRecipes[recipe.recipe_id] + 1;
+      });
+    }
+
+    const recipes = await pool.query('SELECT * from recipes ' +
+      'INNER JOIN recipe_type ON recipe_type.recipe_id = recipes.recipe_id ' +
+      'INNER JOIN types ON types.type_id = recipe_type.type_id ' +
+      'WHERE NOT recipe_ismoderated = true AND (recipe_time <= $1 OR $1 = 0) AND ' +
+      '(recipe_isvegan = $2 OR $2 = false) AND (type_name = $3 OR $3 = $4)',
+      [time, isVegan, type, 'undefined']);
+
+    const recipesResult = recipes.rows
+      .filter(recipe =>
+        ((ingredients.length === 0) || (ingrRecipes[recipe.recipe_id] === ingredients.length)) &&
+        (title === 'undefined' || recipe.recipe_title.toLowerCase().includes(title.toLowerCase()))
+      );
+    res.json(recipesResult);
+  } catch(error) {
+    console.error(error.message);
+  }
+})
+
 //get specific recipe
 router.get("/:id/", async(req, res) => {
   const { id } = req.params;

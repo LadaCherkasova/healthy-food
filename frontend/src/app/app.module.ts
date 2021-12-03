@@ -7,7 +7,7 @@ import { routes } from './app.routes';
 import { HeaderModule } from './header/header.module';
 import { FindPageModule } from './find-page/find-page.module';
 import { RecipePreviewModule } from './recipe-preview/recipe-preview.module';
-import { FavouritePageModule } from './favourite-page/favourite-page.module';
+import { FavoritePageModule } from './favorite-page/favorite-page.module';
 import { RecipePageModule } from './recipe-page/recipe-page.module';
 import { RegisterDialogModule } from './register-dialog/register-dialog.module';
 import { LoginDialogModule } from './login-dialog/login-dialog.module';
@@ -17,6 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { SettingsService } from './services/settings.service';
 import { RecipesService } from './services/recipes.service';
 import { AddRecipePageModule } from './add-recipe-page/add-recipe-page.module';
+import { FavoritesService } from './services/favorites.service';
+import { AuthorizationGuard } from './authorization.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,7 +28,7 @@ import { AddRecipePageModule } from './add-recipe-page/add-recipe-page.module';
     HeaderModule,
     FindPageModule,
     RecipePreviewModule,
-    FavouritePageModule,
+    FavoritePageModule,
     RecipePageModule,
     LoginDialogModule,
     RegisterDialogModule,
@@ -34,7 +36,7 @@ import { AddRecipePageModule } from './add-recipe-page/add-recipe-page.module';
     HttpClientModule,
     AddRecipePageModule,
   ],
-  providers: [AuthService, SettingsService, RecipesService],
+  providers: [AuthService, SettingsService, RecipesService, FavoritesService, AuthorizationGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

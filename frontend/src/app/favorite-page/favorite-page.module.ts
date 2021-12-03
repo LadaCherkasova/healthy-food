@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FavouritePageComponent } from './favourite-page.component';
+import { FavoritePageComponent } from './favorite-page.component';
 import { RecipePreviewModule } from '../recipe-preview/recipe-preview.module';
 
 
 @NgModule({
-  declarations: [FavouritePageComponent],
+  declarations: [FavoritePageComponent],
   imports: [CommonModule, RecipePreviewModule],
-  exports: [FavouritePageComponent],
+  exports: [FavoritePageComponent],
 })
-export class FavouritePageModule { }
+export class FavoritePageModule {}

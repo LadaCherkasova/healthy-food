@@ -40,6 +40,7 @@ export class LoginDialogComponent {
             token: res.token,
             isLogged: true,
             isAdmin: res.isAdmin,
+            userId: res.userId,
           });
           this.closeDialog();
         }

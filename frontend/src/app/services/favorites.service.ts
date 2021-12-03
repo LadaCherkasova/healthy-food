@@ -5,43 +5,34 @@ import { catchError } from 'rxjs/operators';
 import { AuthStore } from './auth.store';
 
 @Injectable({providedIn: 'root'})
-export class RecipesService {
+export class FavoritesService {
   constructor(private http: HttpClient, private authStore: AuthStore) {}
 
-  getAvailableRecipes(): Observable<any> {
-    return this.http.get('http://localhost:5000/recipes/')
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
-
-  getCertainRecipe(id: number): Observable<any> {
-    return this.http.get('http://localhost:5000/recipes/' + id + '/')
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
-
-  createRecipe(recipe: any): Observable<any> {
+  toggleFavorite(recipeId: number): Observable<any> {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
-    return this.http.post('http://localhost:5000/recipes/', recipe, {headers: header})
+    const userId = this.authStore.getValue().userId;
+    return this.http.post('http://localhost:5000/favorites/', {userId: userId, recipeId: recipeId}, {headers: header})
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  getFilteredRecipes(shields: any): Observable<any> {
-    let ingredientsStr = '';
-    shields.ingredients.forEach(
-      ingredient => ingredientsStr = ingredientsStr + ' ' + ingredient.title
-    )
+  isFavorite(recipeId: number): Observable<any> {
+    const header = new HttpHeaders().set('token', this.authStore.getValue().token);
+    const userId = this.authStore.getValue().userId;
     const params = new HttpParams()
-      .set('title', shields.title)
-      .set('ingredients', ingredientsStr)
-      .set('type', shields.type)
-      .set('time', shields.time)
-      .set('isVegan', shields.isVegan);
-    return this.http.get('http://localhost:5000/recipes/filtered/shields/', {params: params})
+      .set('userId', userId)
+      .set('recipeId', recipeId);
+    return this.http.get('http://localhost:5000/favorites/is-favorite/',{headers: header, params: params})
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getFavorites(): Observable<any> {
+    const header = new HttpHeaders().set('token', this.authStore.getValue().token);
+    const params = new HttpParams().set('userId', this.authStore.getValue().userId);
+    return this.http.get('http://localhost:5000/favorites/', {headers: header, params: params})
       .pipe(
         catchError(this.handleError)
       );

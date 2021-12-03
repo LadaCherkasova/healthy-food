@@ -57,7 +57,7 @@ router.post("/login", validInfo, async(req, res) => {
 
     //give jwt token
     const token = tokenGenerator(user.rows[0].user_id);
-    res.json({token: token, isAdmin: user.rows[0].user_isadmin});
+    res.json({token: token, isAdmin: user.rows[0].user_isadmin, userId: user.rows[0].user_id});
 
   } catch(error) {
     console.error(error.message);
