@@ -7,7 +7,8 @@ module.exports = router;
 //toggle favorites
 router.post("/", authorization, async(req, res) => {
   try {
-    const { userId, recipeId } = req.body;
+    const { recipeId } = req.body;
+    const userId = req.user;
     const isFavorite = await pool.query('SELECT user_id, recipe_id FROM favorites WHERE user_id = $1 AND recipe_id = $2', [userId, recipeId]);
 
     if (isFavorite.rows.length === 0) {
@@ -23,7 +24,7 @@ router.post("/", authorization, async(req, res) => {
 //get favorites of certain user
 router.get("/", authorization, async(req, res) => {
   try {
-    const { userId } = req.query;
+    const userId = req.user;
     const favorites =  await pool.query('SELECT * FROM recipes ' +
       'LEFT JOIN favorites ON favorites.recipe_id = recipes.recipe_id ' +
       'LEFT JOIN recipe_type ON recipe_type.recipe_id = recipes.recipe_id ' +
@@ -37,7 +38,8 @@ router.get("/", authorization, async(req, res) => {
 //is favorite or not
 router.get("/is-favorite/", authorization, async(req, res) => {
   try {
-    const { userId, recipeId } = req.query;
+    const { recipeId } = req.query;
+    const userId = req.user;
     const isFavorite = await pool.query('SELECT user_id, recipe_id FROM favorites WHERE user_id = $1 AND recipe_id = $2', [userId, recipeId]);
     res.json(isFavorite.rows.length !== 0);
   } catch(error) {

@@ -23,6 +23,7 @@ import { ModerationPageModule } from './moderation-page/moderation-page.module';
 import { ModerationService } from './services/moderation.service';
 import { IngredientDialogModule } from './ingredient-dialog/ingredient-dialog.module';
 import { AdminGuard } from './admin.guard';
+import { AuthorPageModule } from './author-page/author-page.module';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { AdminGuard } from './admin.guard';
     AddRecipePageModule,
     ModerationPageModule,
     IngredientDialogModule,
+    AuthorPageModule,
   ],
   providers: [
     AuthService,
