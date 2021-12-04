@@ -100,7 +100,10 @@ router.get("/filtered/shields", async(req, res) => {
 router.get("/:id/", async(req, res) => {
   const { id } = req.params;
   try {
-    const recipe = await pool.query('SELECT * from recipes ' +
+    const recipe = await pool.query('SELECT user_id, user_name, recipes.recipe_id, recipe_title, recipe_description,' +
+      'recipe_time, recipe_isvegan, recipe_portions, recipe_ismoderated, recipe_previousrecipe, recipe_preview, types.type_id, ' +
+      'type_name from users ' +
+      'INNER JOIN recipes ON users.user_id::text = recipes.recipe_author ' +
       'INNER JOIN recipe_type ON recipe_type.recipe_id = recipes.recipe_id ' +
       'INNER JOIN types ON types.type_id = recipe_type.type_id ' +
       'WHERE recipes.recipe_id = $1', [id]);
@@ -112,6 +115,37 @@ router.get("/:id/", async(req, res) => {
     const steps = await pool.query('SELECT * from steps ' +
       'WHERE steps.recipe_id = $1', [id]);
     res.json({recipe: recipe.rows[0], ingredients: ingredients.rows, steps: steps.rows});
+  } catch(error) {
+    console.error(error.message);
+  }
+})
+
+//get own recipes
+router.get("/own/list/", authorization, async(req, res) => {
+  try {
+    const recipes = await pool.query('SELECT * from recipes ' +
+      'INNER JOIN recipe_type ON recipe_type.recipe_id = recipes.recipe_id ' +
+      'INNER JOIN types ON types.type_id = recipe_type.type_id ' +
+      'WHERE NOT recipe_ismoderated = true AND recipe_author = $1', [req.user]);
+    res.json(recipes.rows);
+  } catch(error) {
+    console.error(error.message);
+  }
+})
+
+//get author recipes
+router.get("/author/list/", async(req, res) => {
+  try {
+    const { recipeId } = req.query;
+    const recipe_author = await pool.query('SELECT recipe_author from recipes WHERE recipe_id = $1', [recipeId]);
+
+    const recipes = await pool.query('SELECT * from recipes ' +
+      'INNER JOIN recipe_type ON recipe_type.recipe_id = recipes.recipe_id ' +
+      'INNER JOIN types ON types.type_id = recipe_type.type_id ' +
+      'WHERE NOT recipe_ismoderated = true AND recipe_author = $1', [recipe_author.rows[0].recipe_author]);
+
+    const user_name = await pool.query('SELECT user_name from users WHERE user_id = $1', [recipe_author.rows[0].recipe_author]);
+    res.json({recipes: recipes.rows, user_name: user_name.rows[0]});
   } catch(error) {
     console.error(error.message);
   }

@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { AuthStore } from './auth.store';
 
 @Injectable({providedIn: 'root'})
 export class SettingsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authStore: AuthStore) {}
 
   getAvailableIngredients(): Observable<any> {
     return this.http.get('http://localhost:5000/settings/ingredients')
@@ -22,7 +23,9 @@ export class SettingsService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    if (error.status === 0) {
+    if (error.status === 403) {
+      this.authStore.update({isLogged: false});
+    } else if (error.status === 0) {
       console.error('An error occurred:', error.error);
     } else {
       console.error(`Backend returned code ${error.status}, body was: `, error.error);

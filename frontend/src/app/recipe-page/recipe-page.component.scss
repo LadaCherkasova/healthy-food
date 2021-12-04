@@ -149,3 +149,22 @@
     color: #a01515e3;
   }
 }
+
+.recipe-page-image-wrap {
+  position: relative;
+}
+
+.recipe-page-author-wrap {
+  font-size: 14px;
+  position: absolute;
+  bottom: -8px;
+  left: -8px;
+  padding: 4px 10px 2px 10px;
+  border-radius: 16px;
+  border: var(--border-01);
+  background: var(--bg-04);
+
+  svg {
+    margin: -4px 6px 0 0;
+  }
+}

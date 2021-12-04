@@ -5,18 +5,32 @@
   margin: 20px 0;
 }
 
+.favourite-page-titles {
+  display: flex;
+}
+
 .favourite-page-title-wrap {
   display: flex;
   align-items: center;
+  pointer-events: none;
+
+  &:last-of-type {
+    margin-left: 40px;
+  }
+
+  &.not-active {
+    opacity: 0.6;
+    pointer-events: unset;
+  }
 }
 
 .favourite-page-icon {
-  margin-right: 8px;
+  margin: -4px 8px 0 0;
   color: var(--bg-05);
 }
 
 .favourite-page-title {
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .favourite-page-recipes {

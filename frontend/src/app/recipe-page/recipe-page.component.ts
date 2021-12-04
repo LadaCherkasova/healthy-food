@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { RecipesService } from '../services/recipes.service';
 import { AuthQuery } from '../services/auth.query';
 import { AuthStore } from '../services/auth.store';
@@ -76,6 +76,10 @@ export class RecipePageComponent implements OnInit {
       .declineModeratedRecipe(this.recipe.recipe_id)
       .subscribe();
     this.router.navigateByUrl('moderation');
+  }
+
+  openAuthorRecipes(): void {
+    this.router.navigateByUrl(`profile/${this.recipe.recipe_id}`);
   }
 }
 

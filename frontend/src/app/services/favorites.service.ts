@@ -10,8 +10,7 @@ export class FavoritesService {
 
   toggleFavorite(recipeId: number): Observable<any> {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
-    const userId = this.authStore.getValue().userId;
-    return this.http.post('http://localhost:5000/favorites/', {userId: userId, recipeId: recipeId}, {headers: header})
+    return this.http.post('http://localhost:5000/favorites/', {recipeId: recipeId}, {headers: header})
       .pipe(
         catchError(this.handleError)
       );
@@ -19,9 +18,7 @@ export class FavoritesService {
 
   isFavorite(recipeId: number): Observable<any> {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
-    const userId = this.authStore.getValue().userId;
     const params = new HttpParams()
-      .set('userId', userId)
       .set('recipeId', recipeId);
     return this.http.get('http://localhost:5000/favorites/is-favorite/',{headers: header, params: params})
       .pipe(
@@ -31,15 +28,16 @@ export class FavoritesService {
 
   getFavorites(): Observable<any> {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
-    const params = new HttpParams().set('userId', this.authStore.getValue().userId);
-    return this.http.get('http://localhost:5000/favorites/', {headers: header, params: params})
+    return this.http.get('http://localhost:5000/favorites/', {headers: header})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   private handleError(error: HttpErrorResponse) {
-    if (error.status === 0) {
+    if (error.status === 403) {
+      this.authStore.update({isLogged: false});
+    } else if (error.status === 0) {
       console.error('An error occurred:', error.error);
     } else {
       console.error(`Backend returned code ${error.status}, body was: `, error.error);
