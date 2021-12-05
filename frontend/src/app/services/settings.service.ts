@@ -9,14 +9,14 @@ export class SettingsService {
   constructor(private http: HttpClient, private authStore: AuthStore) {}
 
   getAvailableIngredients(): Observable<any> {
-    return this.http.get('http://localhost:5000/settings/ingredients')
+    return this.http.get('/settings/ingredients')
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getDishesTypes(): Observable<any> {
-    return this.http.get('http://localhost:5000/settings/types')
+    return this.http.get('/settings/types')
       .pipe(
         catchError(this.handleError)
       );

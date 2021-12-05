@@ -2,10 +2,17 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const path = require("path");
+const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.json({limit: '50mb'})); //=> req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+
+// app.use(express.static(path.join(__dirname, "frontend/dist/healthy-food")));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "frontend/dist/healthy-food")));
+}
 
 //ROUTES
 app.use("/auth", require("./routes/auth"));
@@ -14,6 +21,10 @@ app.use("/settings", require("./routes/settings"));
 app.use("/favorites", require("./routes/favorites"));
 app.use("/moderation", require("./routes/moderation"));
 
-app.listen(5000, () => {
-  console.log('server is running on port 5000')
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend/dist/healthy-food/index.html"));
+})
+
+app.listen(PORT, () => {
+  console.log(`server is running on port ${PORT}`)
 });

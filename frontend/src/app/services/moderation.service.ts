@@ -10,7 +10,7 @@ export class ModerationService {
 
   getModeratedRecipes(): Observable<any> {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
-    return this.http.get('http://localhost:5000/moderation/recipes', {headers: header})
+    return this.http.get('/moderation/recipes', {headers: header})
       .pipe(
         catchError(this.handleError)
       );
@@ -18,7 +18,7 @@ export class ModerationService {
 
   getModeratedIngredients(): Observable<any> {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
-    return this.http.get('http://localhost:5000/moderation/ingredients', {headers: header})
+    return this.http.get('/moderation/ingredients', {headers: header})
       .pipe(
         catchError(this.handleError)
       );
@@ -26,7 +26,7 @@ export class ModerationService {
 
   approveModeratedRecipe(id: number): Observable<any> {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
-    return this.http.post('http://localhost:5000/moderation/approve', {isRecipe: true, recipeId: id}, {headers: header})
+    return this.http.post('/moderation/approve', {isRecipe: true, recipeId: id}, {headers: header})
       .pipe(
         catchError(this.handleError)
       );
@@ -34,7 +34,7 @@ export class ModerationService {
 
   approveModeratedIngredient(id: number): Observable<any> {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
-    return this.http.post('http://localhost:5000/moderation/approve', {isRecipe: false, ingredientId: id}, {headers: header})
+    return this.http.post('/moderation/approve', {isRecipe: false, ingredientId: id}, {headers: header})
       .pipe(
         catchError(this.handleError)
       );
@@ -42,7 +42,7 @@ export class ModerationService {
 
   sendIngredientForModeration(name: string): Observable<any> {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
-    return this.http.post('http://localhost:5000/moderation/ingredient', {ingredient: name},{headers: header})
+    return this.http.post('/moderation/ingredient', {ingredient: name},{headers: header})
       .pipe(
         catchError(this.handleError)
       );
@@ -53,7 +53,7 @@ export class ModerationService {
     const params = new HttpParams()
       .set('isRecipe', false)
       .set('ingredientId', id);
-    return this.http.delete('http://localhost:5000/moderation/decline', {headers: header, params: params})
+    return this.http.delete('/moderation/decline', {headers: header, params: params})
       .pipe(
         catchError(this.handleError)
       );
@@ -64,7 +64,7 @@ export class ModerationService {
     const params = new HttpParams()
       .set('isRecipe', true)
       .set('recipeId', id);
-    return this.http.delete('http://localhost:5000/moderation/decline', {headers: header, params: params})
+    return this.http.delete('/moderation/decline', {headers: header, params: params})
       .pipe(
         catchError(this.handleError)
       );

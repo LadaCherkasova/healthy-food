@@ -9,14 +9,14 @@ export class RecipesService {
   constructor(private http: HttpClient, private authStore: AuthStore) {}
 
   getAvailableRecipes(): Observable<any> {
-    return this.http.get('http://localhost:5000/recipes/')
+    return this.http.get('/recipes/')
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getCertainRecipe(id: number): Observable<any> {
-    return this.http.get('http://localhost:5000/recipes/' + id + '/')
+    return this.http.get('/recipes/' + id + '/')
       .pipe(
         catchError(this.handleError)
       );
@@ -24,7 +24,7 @@ export class RecipesService {
 
   createRecipe(recipe: any): Observable<any> {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
-    return this.http.post('http://localhost:5000/recipes/', recipe, {headers: header})
+    return this.http.post('/recipes/', recipe, {headers: header})
       .pipe(
         catchError(this.handleError)
       );
@@ -41,7 +41,7 @@ export class RecipesService {
       .set('type', shields.type)
       .set('time', shields.time)
       .set('isVegan', shields.isVegan);
-    return this.http.get('http://localhost:5000/recipes/filtered/shields/', {params: params})
+    return this.http.get('/recipes/filtered/shields/', {params: params})
       .pipe(
         catchError(this.handleError)
       );
@@ -49,7 +49,7 @@ export class RecipesService {
 
   getOwnRecipes(): Observable<any> {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
-    return this.http.get('http://localhost:5000/recipes/own/list/', {headers: header})
+    return this.http.get('/recipes/own/list/', {headers: header})
       .pipe(
         catchError(this.handleError)
       );
@@ -57,14 +57,14 @@ export class RecipesService {
 
   getAuthorRecipes(recipeId: number): Observable<any> {
     const params = new HttpParams().set('recipeId', recipeId);
-    return this.http.get('http://localhost:5000/recipes/author/list/', {params: params})
+    return this.http.get('/recipes/author/list/', {params: params})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   // updateRecipePreview(preview: any) {
-  //   return this.http.post('http://localhost:5000/recipes/update/preview', {preview: preview})
+  //   return this.http.post('/recipes/update/preview', {preview: preview})
   //     .pipe(
   //       catchError(this.handleError)
   //     );
