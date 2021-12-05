@@ -151,13 +151,12 @@ router.get("/author/list/", async(req, res) => {
   }
 })
 
-// //update recipe
-// router.put("/:id", async(req, res) => {
-//   const { id } = req.params;
-//   const { newTitle } = req.body;
+// //update some parts of recipes
+// router.post("/update/preview", async(req, res) => {
 //   try {
-//     const updateRecipe = await pool.query('UPDATE recipes SET recipe_title = $1 WHERE recipe_id = $2', [newTitle, id]);
-//     res.json('Recipe was updated');
+//     const {preview} = req.body;
+//     await pool.query('UPDATE recipes SET recipe_preview = $1 WHERE recipe_id = 35', [preview]);
+//
 //   } catch(error) {
 //     console.error(error.message);
 //   }

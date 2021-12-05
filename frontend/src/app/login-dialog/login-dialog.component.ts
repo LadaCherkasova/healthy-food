@@ -1,19 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { AuthStore } from '../services/auth.store';
 import { RegisterDialogComponent } from '../register-dialog/register-dialog.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'login-dialog',
   templateUrl: './login-dialog.component.html',
   styleUrls: ['./login-dialog.component.scss']
 })
-export class LoginDialogComponent {
+export class LoginDialogComponent implements OnDestroy {
   readonly emailControl = new FormControl();
 
   readonly passwordControl = new FormControl();
+
+  readonly subscription = new Subscription();
 
   constructor(
     private dialogRef: MatDialogRef<LoginDialogComponent>,
@@ -32,7 +35,7 @@ export class LoginDialogComponent {
   }
 
   login(): void {
-    this.authService
+    const loginRequest$ = this.authService
       .login(this.passwordControl.value.trim(), this.emailControl.value.trim())
       .subscribe(res => {
         if (res.token) {
@@ -45,5 +48,10 @@ export class LoginDialogComponent {
           this.closeDialog();
         }
       });
+    this.subscription.add(loginRequest$);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

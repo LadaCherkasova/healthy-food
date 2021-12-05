@@ -71,9 +71,7 @@ export class ModerationService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    if (error.status === 403) {
-      this.authStore.update({isLogged: false});
-    } else if (error.status === 0) {
+    if (error.status === 0) {
       console.error('An error occurred:', error.error);
     } else {
       console.error(`Backend returned code ${error.status}, body was: `, error.error);

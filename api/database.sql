@@ -49,3 +49,9 @@ CREATE TABLE favorites
     user_id uuid REFERENCES users (user_id),
     recipe_id INTEGER REFERENCES recipes (recipe_id)
 );
+
+DELETE from recipe_type WHERE recipe_id = 63;
+DELETE from recipe_ingredient WHERE recipe_id = 63;
+DELETE from steps WHERE recipe_id = 63;
+DELETE from favorites WHERE recipe_id = 63;
+DELETE from recipes WHERE recipe_id = 63;

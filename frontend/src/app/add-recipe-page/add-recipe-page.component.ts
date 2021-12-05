@@ -1,18 +1,19 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { SettingsService } from '../services/settings.service';
 import { RecipesService } from '../services/recipes.service';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { IngredientDialogComponent } from '../ingredient-dialog/ingredient-dialog.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'add-recipe-page',
   templateUrl: './add-recipe-page.component.html',
   styleUrls: ['./add-recipe-page.component.scss']
 })
-export class AddRecipePageComponent {
+export class AddRecipePageComponent implements OnInit, OnDestroy {
   @ViewChild('file')
   fileInput: ElementRef<HTMLInputElement>;
 
@@ -42,13 +43,17 @@ export class AddRecipePageComponent {
 
   showErrorText = false;
 
+  readonly subscription = new Subscription();
+
   constructor(
     private settingsService: SettingsService,
     private recipesService: RecipesService,
     private router: Router,
     private matDialog: MatDialog,
-  ) {
-    this.fileControl.valueChanges.pipe(
+  ) {}
+
+  ngOnInit(): void {
+    const fileControlChanges$ = this.fileControl.valueChanges.pipe(
       tap(() => {
         const input = (document.getElementById('file') as HTMLInputElement);
         if (input.files) {
@@ -56,8 +61,9 @@ export class AddRecipePageComponent {
         }
       })
     ).subscribe();
+    this.subscription.add(fileControlChanges$);
 
-    this.currentFileControl.valueChanges.pipe(
+    const currentFileControlChanges$ = this.currentFileControl.valueChanges.pipe(
       tap(() => {
         const input = (document.getElementById('currentFile') as HTMLInputElement);
         if (input.files) {
@@ -65,25 +71,29 @@ export class AddRecipePageComponent {
         }
       })
     ).subscribe();
+    this.subscription.add(currentFileControlChanges$);
 
-    this.settingsService
+    const getIngredientsRequest$ = this.settingsService
       .getAvailableIngredients()
       .subscribe((response) => {
         this.ingredients = response;
         this.currentIngredients = response
       });
+    this.subscription.add(getIngredientsRequest$);
 
-    this.settingsService
+    const getTypesRequest$ = this.settingsService
       .getDishesTypes()
       .subscribe(response => this.types = response)
+    this.subscription.add(getTypesRequest$);
 
-    this.ingredientSearchControl.valueChanges.pipe(
+    const ingredientSearchControlChanges$ = this.ingredientSearchControl.valueChanges.pipe(
       tap((value) => {
         this.currentIngredients = this.ingredients.filter(
           ingredient => ingredient.ingredient_name.toLowerCase().includes(value.toLowerCase())
         )
       })
     ).subscribe();
+    this.subscription.add(ingredientSearchControlChanges$);
 
     this.recipe.isVegan = false;
   }
@@ -147,7 +157,16 @@ export class AddRecipePageComponent {
   }
 
   changeValue(event: Event, field: string): void {
-    this.recipe[field] = (event.currentTarget as HTMLInputElement).value;
+    if (field !== 'previousRecipe') {
+      this.recipe[field] = (event.currentTarget as HTMLInputElement).value;
+    } else {
+      const value = (event.currentTarget as HTMLInputElement).value;
+      //TODO: add here the check for domain after deployment
+      const recipeId = value.split('/recipe/')[1];
+      if (recipeId) {
+        this.recipe[field] = recipeId;
+      }
+    }
   }
 
   changeCheckboxValue(event: Event): void {
@@ -163,20 +182,26 @@ export class AddRecipePageComponent {
   }
 
   sendRecipe(): void {
+    let createRecipeRequest$;
     this.recipe.steps = this.steps;
     this.recipe.ingredients = this.chosenIngredients;
     if (this.recipe.title && this.recipe.description && this.recipe.time && this.recipe.portions && this.recipe.type
       && this.recipe.ingredients.length > 0 && this.recipe.steps.length > 0 && this.recipe.preview) {
-      this.recipesService
+      createRecipeRequest$ = this.recipesService
         .createRecipe(this.recipe)
         .subscribe();
       this.router.navigateByUrl('');
     } else {
       this.showErrorText = true;
     }
+    this.subscription.add(createRecipeRequest$);
   }
 
   openIngredientDialog(): void {
     this.matDialog.open(IngredientDialogComponent);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
