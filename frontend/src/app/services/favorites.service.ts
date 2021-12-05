@@ -10,7 +10,7 @@ export class FavoritesService {
 
   toggleFavorite(recipeId: number): Observable<any> {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
-    return this.http.post('http://localhost:5000/favorites/', {recipeId: recipeId}, {headers: header})
+    return this.http.post('/favorites/', {recipeId: recipeId}, {headers: header})
       .pipe(
         catchError(this.handleError)
       );
@@ -20,7 +20,7 @@ export class FavoritesService {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
     const params = new HttpParams()
       .set('recipeId', recipeId);
-    return this.http.get('http://localhost:5000/favorites/is-favorite/',{headers: header, params: params})
+    return this.http.get('/favorites/is-favorite/',{headers: header, params: params})
       .pipe(
         catchError(this.handleError)
       );
@@ -28,7 +28,7 @@ export class FavoritesService {
 
   getFavorites(): Observable<any> {
     const header = new HttpHeaders().set('token', this.authStore.getValue().token);
-    return this.http.get('http://localhost:5000/favorites/', {headers: header})
+    return this.http.get('/favorites/', {headers: header})
       .pipe(
         catchError(this.handleError)
       );

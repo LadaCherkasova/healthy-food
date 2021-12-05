@@ -9,7 +9,7 @@ export class AuthService {
   constructor(private http: HttpClient, private authStore: AuthStore) {}
 
   login(password: string, email: string): Observable<any> {
-    return this.http.post('http://localhost:5000/auth/login/', {
+    return this.http.post('/auth/login/', {
       password: password,
       email: email
     })
@@ -19,7 +19,7 @@ export class AuthService {
   }
 
   register(name: string, password: string, email: string): Observable<any> {
-    return this.http.post('http://localhost:5000/auth/register/', {
+    return this.http.post('/auth/register/', {
       name: name,
       password: password,
       email: email,
@@ -31,7 +31,7 @@ export class AuthService {
   }
 
   getAllRecipes(): Observable<any> {
-    return this.http.get('http://localhost:5000/recipes/')
+    return this.http.get('/recipes/')
       .pipe(
         catchError(this.handleError)
       );
