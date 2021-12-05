@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "heroku-postbuild": "cd frontend && yarn install && ng build --prod"
+    "heroku-postbuild": "cd frontend && yarn install && ng build --prod --aot"
   },
   "author": "",
   "license": "ISC",
