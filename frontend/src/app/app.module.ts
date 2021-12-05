@@ -24,6 +24,7 @@ import { ModerationService } from './services/moderation.service';
 import { IngredientDialogModule } from './ingredient-dialog/ingredient-dialog.module';
 import { AdminGuard } from './admin.guard';
 import { AuthorPageModule } from './author-page/author-page.module';
+import { PipesModule } from './pipes/pipes.module';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { AuthorPageModule } from './author-page/author-page.module';
     ModerationPageModule,
     IngredientDialogModule,
     AuthorPageModule,
+    PipesModule,
   ],
   providers: [
     AuthService,

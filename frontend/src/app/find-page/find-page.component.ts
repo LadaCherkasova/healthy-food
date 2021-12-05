@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SettingsService } from '../services/settings.service';
 import { FormControl } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { RecipesService } from '../services/recipes.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'find-page',
   templateUrl: './find-page.component.html',
   styleUrls: ['./find-page.component.scss']
 })
-export class FindPageComponent implements OnInit {
+export class FindPageComponent implements OnInit, OnDestroy {
   readonly titleControl = new FormControl();
 
   readonly timeControl = new FormControl();
@@ -37,6 +38,8 @@ export class FindPageComponent implements OnInit {
     isVegan: undefined,
   };
 
+  readonly subscription = new Subscription();
+
   constructor(
     private settingsService: SettingsService,
     private recipesService: RecipesService,
@@ -44,43 +47,49 @@ export class FindPageComponent implements OnInit {
   ) {};
 
   ngOnInit(): void {
-    this.settingsService
+    const getIngredientsRequest$ = this.settingsService
       .getAvailableIngredients()
       .subscribe((response) => {
         this.ingredients = response;
         this.currentIngredients = response;
       });
+    this.subscription.add(getIngredientsRequest$);
 
-    this.settingsService
+    const getTypesRequest$ = this.settingsService
       .getDishesTypes()
       .subscribe(response => this.types = response);
+    this.subscription.add(getTypesRequest$);
 
-    this.timeControl.valueChanges.pipe(
+    const timeControlChanges$ = this.timeControl.valueChanges.pipe(
       tap(time => this.shields.time = time !== '' ? time : undefined)
     ).subscribe();
+    this.subscription.add(timeControlChanges$);
 
-    this.veganControl.valueChanges.pipe(
+    const veganControlChanges$ = this.veganControl.valueChanges.pipe(
       tap(isVegan => this.shields.isVegan = isVegan ? true : undefined)
     ).subscribe();
+    this.subscription.add(veganControlChanges$);
 
-    this.ingredientSearchControl.valueChanges.pipe(
+    const ingredientSearchControlChanges$ = this.ingredientSearchControl.valueChanges.pipe(
       tap((value) => {
         this.currentIngredients = this.ingredients.filter(
           ingredient => ingredient.ingredient_name.toLowerCase().includes(value.toLowerCase())
         )
-      })
-    ).subscribe();
+      })).subscribe();
+    this.subscription.add(ingredientSearchControlChanges$);
 
-    this.recipesService
+    const getRecipesRequest$ = this.recipesService
       .getAvailableRecipes()
       .subscribe(res => this.recipes = res);
+    this.subscription.add(getRecipesRequest$);
 
-    this.titleControl.valueChanges.pipe(
+    const titleControlChanges$ = this.titleControl.valueChanges.pipe(
       tap((value) => {
         this.shields.title = value === '' ? undefined : value;
         this.getFilteredRecipes(false);
       })
     ).subscribe();
+    this.subscription.add(titleControlChanges$);
   }
 
   toggleInputIcon(): void {
@@ -131,13 +140,18 @@ export class FindPageComponent implements OnInit {
     if (shouldToggle) {
       this.toggleInputIcon();
     }
-    this.recipesService
+    const getFilteredRecipesRequest$ = this.recipesService
       .getFilteredRecipes(this.shields)
       .subscribe(res => this.recipes = res);
+    this.subscription.add(getFilteredRecipesRequest$);
   }
 
   openRecipe(id: number): void {
     this.router.navigateByUrl(`recipe/${id}`);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private findIdOfShield(value: string): number {

@@ -1,20 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { AuthStore } from '../services/auth.store';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'register-dialog',
   templateUrl: './register-dialog.component.html',
   styleUrls: ['./register-dialog.component.scss']
 })
-export class RegisterDialogComponent {
+export class RegisterDialogComponent implements OnDestroy {
   readonly nameControl = new FormControl();
 
   readonly emailControl = new FormControl();
 
   readonly passwordControl = new FormControl();
+
+  readonly subscription = new Subscription();
 
   constructor(
     private dialogRef: MatDialogRef<RegisterDialogComponent>,
@@ -27,7 +30,7 @@ export class RegisterDialogComponent {
   }
 
   register(): void {
-    this.authService
+    const registerRequest$ = this.authService
       .register(this.nameControl.value.trim(), this.passwordControl.value.trim(), this.emailControl.value.trim())
       .subscribe(res => {
         if (res.token) {
@@ -39,5 +42,10 @@ export class RegisterDialogComponent {
           this.closeDialog();
         }
       });
+    this.subscription.add(registerRequest$);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

@@ -19,7 +19,7 @@ export function createInitialState(): AuthState {
   };
 }
 
-const authStoreKey = 'auth-store';
+const authStoreKey = 'healthy-food-auth-store';
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: authStoreKey })

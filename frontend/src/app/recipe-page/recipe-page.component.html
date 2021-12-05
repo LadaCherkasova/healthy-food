@@ -49,6 +49,12 @@
       <use xlink:href="assets/leaf.svg#leaf"></use>
     </svg>
   </div>
+  <button *ngIf="recipe.recipe_previousrecipe" class="recipe-page-previous-recipe-wrap" (click)="openPreviousRecipe()">
+    <svg width="16" height="16">
+      <use xlink:href="assets/link.svg#link"></use>
+    </svg>
+    <span>Этот рецепт может помочь Вам в приготовлении</span>
+  </button>
   <div *ngFor="let step of steps" class="recipe-page-card recipe-page-step">
     <img [src]="step.step_image" class="recipe-page-step-image">
     <p>{{step.step_description}}</p>
@@ -66,7 +72,7 @@
   </div>
   <div class="recipe-page-ingredients-portions">
     <div class="recipe-page-ingredients-divider"></div>
-    <span>{{recipe.recipe_portions}} порции</span>
+    <span>{{recipe.recipe_portions | portionsPhrase}}</span>
     <div class="recipe-page-ingredients-divider"></div>
   </div>
 </div>

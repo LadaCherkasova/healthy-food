@@ -2,15 +2,14 @@ import { NgModule } from '@angular/core';
 import { AddRecipePageComponent } from './add-recipe-page.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SafeUrlPipe } from './safe-url.pipe';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 @NgModule({
-  declarations: [AddRecipePageComponent, SafeUrlPipe],
-  imports: [CommonModule, ReactiveFormsModule, MatCheckboxModule, MatDialogModule],
+  declarations: [AddRecipePageComponent],
+  imports: [CommonModule, ReactiveFormsModule, MatCheckboxModule, MatDialogModule, PipesModule],
   exports: [AddRecipePageComponent],
-  providers: [SafeUrlPipe],
 })
 export class AddRecipePageModule {}

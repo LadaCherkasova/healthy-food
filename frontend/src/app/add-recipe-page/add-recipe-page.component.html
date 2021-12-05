@@ -161,9 +161,8 @@
     </button>
   </div>
   <div>
-    <span>Рассчитано на </span>
+    <span>Количество порций: </span>
     <input class="add-recipe-page-input small" (change)="changeValue($event, 'portions')">
-    <span>порции</span>
   </div>
 </div>
 <p *ngIf="showErrorText" class="add-recipe-page-error-text">Не все обязательные поля заполнены</p>
