@@ -18,6 +18,8 @@
     <p class="register-dialog-subtitle">Введите пароль</p>
     <input class="register-dialog-input" [formControl]="passwordControl" type="password">
   </div>
+  <p *ngIf="showError" class="register-dialog-error">Пользователь с такой почтой уже</p>
+  <p *ngIf="showError" class="register-dialog-error">зарегистрирован</p>
   <button class="register-dialog-button" (click)="register()"
           [class.disabled]="!emailControl.value || !passwordControl.value || !nameControl.value">
     <span>Зарегистрироваться</span>

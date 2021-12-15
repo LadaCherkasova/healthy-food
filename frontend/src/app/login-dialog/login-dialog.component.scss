@@ -65,3 +65,8 @@
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
 }
+
+.login-dialog-error {
+  margin-bottom: 16px;
+  color: var(--text-03);
+}

@@ -4,11 +4,14 @@
   grid-template-columns: 120px 1fr;
   grid-column-gap: 20px;
   padding: 20px;
+  border-radius: 8px;
   background: var(--bg-13);
-  border: var(--border-03);
+  border: var(--border-01);
 
   &:hover {
     cursor: pointer;
+    border: var(--border-06);
+    background: var(--bg-04);
   }
 }
 

@@ -1,4 +1,4 @@
-<div *ngIf="recipe && (!isModerated || (isAdmin$ | async))">
+<div *ngIf="recipe.recipe_title && (!isModerated || (isAdmin$ | async))">
   <div class="recipe-page-card recipe-main-card">
     <div class="recipe-page-image-wrap">
       <img [src]="recipe.recipe_preview" class="recipe-page-main-image">
@@ -61,7 +61,7 @@
   </div>
 </div>
 
-<div *ngIf="recipe && (!isModerated || (isAdmin$ | async))" class="recipe-page-card recipe-ingredients-card">
+<div *ngIf="recipe.recipe_title && (!isModerated || (isAdmin$ | async))" class="recipe-page-card recipe-ingredients-card">
   <span class="recipe-page-title">Ингдериенты</span>
   <div *ngFor="let ingredient of ingredients" class="recipe-ingredient-row">
     <svg width="8" height="8">
