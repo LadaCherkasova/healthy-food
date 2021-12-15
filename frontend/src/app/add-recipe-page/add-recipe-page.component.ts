@@ -190,7 +190,6 @@ export class AddRecipePageComponent implements OnInit, OnDestroy {
       createRecipeRequest$ = this.recipesService
         .createRecipe(this.recipe)
         .subscribe();
-      this.router.navigateByUrl('');
     } else {
       this.showErrorText = true;
     }
