@@ -54,3 +54,11 @@
     opacity: 0.5;
   }
 }
+
+.register-dialog-error {
+  color: var(--text-03);
+
+  &:last-of-type {
+    margin-bottom: 16px;
+  }
+}

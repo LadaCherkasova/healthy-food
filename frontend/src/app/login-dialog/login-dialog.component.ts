@@ -18,6 +18,8 @@ export class LoginDialogComponent implements OnDestroy {
 
   readonly subscription = new Subscription();
 
+  showError = false;
+
   constructor(
     private dialogRef: MatDialogRef<LoginDialogComponent>,
     private authService: AuthService,
@@ -47,7 +49,12 @@ export class LoginDialogComponent implements OnDestroy {
           });
           this.closeDialog();
         }
-      });
+      },
+        error => {
+          if (error.status === 401) {
+            this.showError = true;
+          }
+        });
     this.subscription.add(loginRequest$);
   }
 

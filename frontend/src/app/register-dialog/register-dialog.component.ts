@@ -19,6 +19,8 @@ export class RegisterDialogComponent implements OnDestroy {
 
   readonly subscription = new Subscription();
 
+  showError = false;
+
   constructor(
     private dialogRef: MatDialogRef<RegisterDialogComponent>,
     private authService: AuthService,
@@ -40,6 +42,10 @@ export class RegisterDialogComponent implements OnDestroy {
             isAdmin: res.isAdmin,
           });
           this.closeDialog();
+        }
+      }, error => {
+        if (error.status === 401) {
+          this.showError = true;
         }
       });
     this.subscription.add(registerRequest$);

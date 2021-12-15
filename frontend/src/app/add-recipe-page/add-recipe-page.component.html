@@ -54,18 +54,25 @@
     </div>
   </div>
   <div *ngFor="let step of steps" class="add-recipe-page-step-wrap">
-    <div class="add-recipe-page-card step-card">
-      <img [src]="step.photo | safeUrl">
-      <div>{{step.description}}</div>
-    </div>
     <button class="add-recipe-page-photo-icon"
             (click)="deleteStep(step)">
       <svg width="14" height="14">
         <use xlink:href="assets/cross.svg#cross"></use>
       </svg>
     </button>
+    <div class="add-recipe-page-card step-card">
+      <img [src]="step.photo | safeUrl">
+      <div>{{step.description}}</div>
+    </div>
   </div>
   <div class="add-recipe-page-step-wrap">
+    <button class="add-recipe-page-photo-icon"
+            [class.disabled]="!recipe.currentStepPhoto || !currentStepControl.value"
+            (click)="setCurrentStep()">
+      <svg width="14" height="14">
+        <use xlink:href="assets/check.svg#check"></use>
+      </svg>
+    </button>
     <div class="add-recipe-page-card">
       <div class="add-recipe-page-block">
         <span>Опишите действия в этом шаге:</span>
@@ -82,13 +89,6 @@
         <img *ngIf="recipe.currentStepPhoto" [src]="recipe.currentStepPhoto | safeUrl" class="add-recipe-page-image">
       </div>
     </div>
-    <button class="add-recipe-page-photo-icon"
-            [class.disabled]="!recipe.currentStepPhoto || !currentStepControl.value"
-            (click)="setCurrentStep()">
-      <svg width="14" height="14">
-        <use xlink:href="assets/check.svg#check"></use>
-      </svg>
-    </button>
   </div>
   <button class="add-recipe-page-button"
           (click)="sendRecipe()">

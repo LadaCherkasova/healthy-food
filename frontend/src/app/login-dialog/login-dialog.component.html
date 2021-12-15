@@ -14,6 +14,7 @@
     <p class="login-dialog-subtitle">Введите пароль</p>
     <input class="login-dialog-input" [formControl]="passwordControl" type="password">
   </div>
+  <p *ngIf="showError" class="login-dialog-error">Логин или пароль введен неверно</p>
   <div class="login-dialog-buttons-block">
     <button (click)="openRegisterModal()">
       <span>Регистрация</span>
