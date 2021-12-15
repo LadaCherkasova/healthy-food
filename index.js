@@ -5,8 +5,13 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const PORT = process.env.PORT || 5000;
 
-app.use(bodyParser.json({limit: '50mb'})); //=> req.body
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json()); //=> req.body
+app.use(function (req, res) {
+  res.setHeader('Content-Type', 'text/plain')
+  res.write('you posted:\n')
+  res.end(JSON.stringify(req.body, null, 2))
+})
 app.use(cors());
 
 // app.use(express.static(path.join(__dirname, "frontend/dist/healthy-food")));
