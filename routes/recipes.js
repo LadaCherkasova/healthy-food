@@ -150,25 +150,3 @@ router.get("/author/list/", async(req, res) => {
     console.error(error.message);
   }
 })
-
-// //update some parts of recipes
-// router.post("/update/preview", async(req, res) => {
-//   try {
-//     const {preview} = req.body;
-//     await pool.query('UPDATE recipes SET recipe_preview = $1 WHERE recipe_id = 35', [preview]);
-//
-//   } catch(error) {
-//     console.error(error.message);
-//   }
-// })
-
-// //delete recipe
-// router.delete("/:id", async(req, res) => {
-//   const { id } = req.params;
-//   try {
-//     const updateRecipe = await pool.query('DELETE FROM recipes WHERE recipe_id = $1', [id]);
-//     res.json('Recipe was deleted');
-//   } catch(error) {
-//     console.error(error.message);
-//   }
-// })

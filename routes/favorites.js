@@ -35,7 +35,7 @@ router.get("/", authorization, async(req, res) => {
   }
 });
 
-//is favorite or not
+//is specific recipe favorite or not
 router.get("/is-favorite/", authorization, async(req, res) => {
   try {
     const { recipeId } = req.query;

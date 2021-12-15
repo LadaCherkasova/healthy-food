@@ -3,7 +3,7 @@ const pool = require("../database");
 
 module.exports = router;
 
-//get all available ingredients (that are not moderated)
+//get all available ingredients
 router.get("/ingredients", async(req, res) => {
   try {
     res.json((await pool.query('SELECT ingredient_name from ingredients WHERE ingredient_ismoderated IS NULL')).rows);
